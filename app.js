@@ -1,6 +1,7 @@
 import express, { json } from 'express'
 import { createMovieRouter } from './routes/movies.js'
 import { corsMiddleware } from './middlewares/cors.js'
+import logger from 'morgan'
 
 export const createApp = ({ movieModel }) => {
   const PORT = process.env.PORT ?? 10000
@@ -8,6 +9,7 @@ export const createApp = ({ movieModel }) => {
 
   app.disable('x-powered-by')
 
+  app.use(logger('dev'))
   app.use(json())
   app.use(corsMiddleware())
   app.use('/movies', createMovieRouter({ movieModel }))
